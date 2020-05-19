@@ -1,10 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@bemoje/is-object')) :
-	typeof define === 'function' && define.amd ? define(['@bemoje/is-object'], factory) :
-	(global = global || self, global['is-plain-object'] = factory(global.isObject));
-}(this, (function (isObject) { 'use strict';
-
-	isObject = isObject && Object.prototype.hasOwnProperty.call(isObject, 'default') ? isObject['default'] : isObject;
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = global || self, global['is-plain-object'] = factory());
+}(this, (function () { 'use strict';
 
 	/**
 	 * True if value is a plain object.
@@ -12,17 +10,37 @@
 	 * @returns {boolean} boolean
 	 */
 	function isPlainObject(value) {
-		// if value isnt an object
-		if (!isObject(value)) {
+		// check for null/void values and Obj.prot.toString
+		if (!value || Object.prototype.toString.call(value) !== '[object Object]') {
 			return false
 		}
 
-		// if has modified prototype
-		if (Object.getPrototypeOf(value) !== Object.prototype) {
+		// Non-own-constructor-property must be Object
+		if (
+			value.constructor &&
+			!Object.prototype.hasOwnProperty.call(value, 'constructor') &&
+			!(
+				value.constructor &&
+				value.constructor.prototype &&
+				Object.prototype.hasOwnProperty.call(
+					value.constructor.prototype,
+					'isPrototypeOf',
+				)
+			)
+		) {
 			return false
 		}
 
-		return true
+		// Own properties are enumerated firstly, so to speed up, if last one is one of its own properties, then all properties are its own.
+		let key;
+		for (key in value) {
+		}
+
+		// return true if exists and is own prop
+		return (
+			typeof key === 'undefined' ||
+			Object.prototype.hasOwnProperty.call(value, key)
+		)
 	}
 
 	return isPlainObject;

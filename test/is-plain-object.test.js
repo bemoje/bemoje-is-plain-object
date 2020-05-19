@@ -5,13 +5,7 @@ describe('isPlainObject', () => {
 		expect(isPlainObject({})).toBe(true)
 	})
 	test('null proto obj', () => {
-		expect(isPlainObject(Object.create(null))).toBe(false)
-	})
-
-	test('fake prototype', () => {
-		const o = {}
-		Object.setPrototypeOf(o, null)
-		expect(isPlainObject(o)).toBe(false)
+		expect(isPlainObject(Object.create(null))).toBe(true)
 	})
 	test('not object', () => {
 		const o = 'str'

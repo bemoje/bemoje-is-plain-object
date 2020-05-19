@@ -1,6 +1,6 @@
 {
    "name": "@bemoje/is-plain-object",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "description": "True if value is a plain object.",
    "main": "dist/is-plain-object.umd.js",
    "module": "dist/is-plain-object.esm.js",
